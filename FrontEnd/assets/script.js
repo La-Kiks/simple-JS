@@ -2,6 +2,8 @@ const API_BASE_URL = "http://localhost:5678/api";
 
 const gallery = document.getElementById("gallery");
 const filterButtons = document.querySelectorAll("#filters button");
+const loginLink = document.getElementById("login-link");
+const token = localStorage.getItem("token");
 
 let works = [];
 
@@ -49,5 +51,18 @@ filterButtons.forEach((button) => {
   });
 });
 
+function handleLogout() {
+  if (token) {
+    loginLink.textContent = "Logout";
+    loginLink.href = "#";
+
+    loginLink.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.reload();
+    });
+  }
+}
+
 // Execution :
 fetchWorks();
+handleLogout();
