@@ -4,6 +4,11 @@ const gallery = document.getElementById("gallery");
 const filterButtons = document.querySelectorAll("#filters button");
 const loginLink = document.getElementById("login-link");
 const token = localStorage.getItem("token");
+const isLoggedIn = !!token; // TODO check if logged in and add header
+const modal = document.getElementById("modal");
+const editBtn = document.getElementById("edit-btn");
+const closeModalBtn = document.getElementById("close-modal");
+const modalGallery = document.getElementById("modal-gallery");
 
 let works = [];
 
@@ -45,11 +50,18 @@ function filterWorksByCategory(categoryId) {
   displayWorks(filteredWorks);
 }
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterWorksByCategory(button.dataset.category);
+function displayWorksInModal(works) {
+  modalGallery.innerHTML = "";
+
+  works.forEach((work) => {
+    modalGallery.innerHTML += `
+      <figure>
+        <img src="${work.imageUrl}" alt="${work.title}">
+        <button class="delete-btn" data-id="${work.id}">Del</button>
+      </figure>
+    `;
   });
-});
+}
 
 function handleLogout() {
   if (token) {
@@ -63,6 +75,42 @@ function handleLogout() {
   }
 }
 
+function updateAdminUI() {
+  editBtn.hidden = !isLoggedIn;
+}
+
+function openModal() {
+  modal.hidden = false;
+  displayWorksInModal(works);
+}
+
+function closeModal() {
+  modal.hidden = true;
+}
+
+// Events :
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    filterWorksByCategory(button.dataset.category);
+  });
+});
+
+editBtn.addEventListener("click", openModal);
+
+closeModalBtn.addEventListener("click", closeModal);
+
+modalGallery.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("delete-btn")) return;
+
+  const workId = e.target.dataset.id;
+
+  try {
+  } catch (e) {
+    console.error(e);
+  }
+});
+
 // Execution :
 fetchWorks();
 handleLogout();
+updateAdminUI();
