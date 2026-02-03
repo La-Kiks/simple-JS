@@ -105,6 +105,18 @@ modalGallery.addEventListener("click", async (e) => {
   const workId = e.target.dataset.id;
 
   try {
+    const response = await fetch(API_BASE_URL + `/works/${workId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Erreur suppression");
+
+    await fetchWorks();
+    displayWorks(works);
+    displayWorksInModal(works);
   } catch (e) {
     console.error(e);
   }
