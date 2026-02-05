@@ -14,22 +14,43 @@
     <script src="./assets/login.js" defer></script>
 </head>
 
-<body>
-    <form id="login-form">
-        <label>
-            Email
-            <input type="email" id="email" required>
-        </label>
+<body class="login-background">
+    <header class="login-header">
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+            <ul>
+                <li>projets</li>
+                <li>contact</li>
+                <a href="login.html" id="login-link">
+                    <li><strong>login</strong></li>
+                </a>
+                <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="login">
+        <h2>Log In</h2>
+        <form id="login-form">
+            <label class="form-label">
+                Email
+                <input class="form-input" type="email" id="email" required>
+            </label>
 
-        <label>
-            Mot de passe
-            <input type="password" id="password" required>
-        </label>
+            <label class="form-label">
+                Mot de passe
+                <input class="form-input" type="password" id="password" required>
+            </label>
 
-        <button type="submit">Se connecter</button>
-    </form>
+            <button class="form-submit" type="submit">Se connecter</button>
+        </form>
 
-    <p id="error-message"></p>
+        <a class="pwd-forgotten" href="#">Mot de passe oublié</a>
+
+        <p id="error-message"></p>
+    </section>
+    <footer class="login-footer">
+        <a class="mentions" href="#">Mentions légales</a>
+    </footer>
 </body>
 
 </html>
