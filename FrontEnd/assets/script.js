@@ -38,7 +38,6 @@ async function fetchWorks() {
 
 function filterWorksByCategory(categoryId) {
   if (categoryId === "all") {
-    console.log("Filter All");
     displayWorks(works);
     return;
   }
@@ -91,6 +90,12 @@ function closeModal() {
 // Events :
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    filterButtons.forEach((btn) => {
+      btn.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
     filterWorksByCategory(button.dataset.category);
   });
 });
