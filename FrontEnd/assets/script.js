@@ -20,6 +20,7 @@ const previewContainer = document.querySelector(".image-preview");
 const form = document.getElementById("add-work-form");
 const submitBtn = form.querySelector("button[type='submit']");
 const categorySelect = document.getElementById("category");
+const titleInput = document.getElementById("title");
 
 let works = [];
 
@@ -126,6 +127,13 @@ function updateSubmitState() {
   }
 }
 
+function resetPreview() {
+  fileInput.value = "";
+  previewImg.src = "";
+  previewContainer.hidden = true;
+  uploadLabel.hidden = false;
+}
+
 // Events :
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -144,9 +152,11 @@ editBtnContainer.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
 
 modalGallery.addEventListener("click", async (e) => {
-  if (!e.target.classList.contains("delete-btn")) return;
+  const deleteBtn = e.target.closest(".delete-btn");
+  if (!deleteBtn) return;
 
-  const workId = e.target.dataset.id;
+  const workId = deleteBtn.dataset.id;
+  console.log("delete", workId);
 
   try {
     const response = await fetch(API_BASE_URL + `/works/${workId}`, {
@@ -197,6 +207,44 @@ fileInput.addEventListener("change", () => {
 
 form.addEventListener("input", updateSubmitState);
 form.addEventListener("change", updateSubmitState);
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!form.checkValidity()) return;
+
+  const formData = new FormData();
+  formData.append("image", fileInput.files[0]);
+  formData.append("title", titleInput.value.trim());
+  formData.append("category", categorySelect.value);
+
+  try {
+    const response = await fetch(API_BASE_URL + "/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l’ajout du projet");
+    }
+
+    const newWork = await response.json();
+    console.log("Work ajouté :", newWork);
+
+    form.reset();
+    updateSubmitState();
+    resetPreview();
+
+    await fetchWorks();
+    displayWorks(works);
+    displayWorksInModal(works);
+  } catch (e) {
+    console.error("Error : ", e);
+  }
+});
 
 // Execution :
 fetchWorks();
