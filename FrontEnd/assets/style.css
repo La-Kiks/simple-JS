@@ -570,7 +570,7 @@ strong {
   cursor: pointer;
 }
 
-.upload-label {
+.upload-label:not([hidden]) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -651,4 +651,15 @@ strong {
   background-color: #a7a7a7;
   color: white;
   cursor: default;
+}
+
+.image-preview {
+  position: relative;
+  margin-top: -20px;
+}
+
+.image-preview img {
+  width: 100%;
+  max-height: 170px;
+  object-fit: contain;
 }

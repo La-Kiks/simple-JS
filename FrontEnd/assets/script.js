@@ -13,6 +13,12 @@ const closeModalBtn = document.getElementById("close-modal");
 const modalGallery = document.getElementById("modal-gallery");
 const modalGalleryView = document.getElementById("modal-gallery-view");
 const modalAddView = document.getElementById("modal-add-view");
+const fileInput = document.getElementById("image");
+const previewImg = document.getElementById("preview-img");
+const uploadLabel = document.querySelector(".upload-label");
+const previewContainer = document.querySelector(".image-preview");
+const form = document.getElementById("add-work-form");
+const submitBtn = form.querySelector("button[type='submit']");
 
 let works = [];
 
@@ -95,6 +101,14 @@ function closeModal() {
   modal.hidden = true;
 }
 
+function updateSubmitState() {
+  if (form.checkValidity()) {
+    submitBtn.classList.remove("disabled");
+  } else {
+    submitBtn.classList.add("disabled");
+  }
+}
+
 // Events :
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -144,6 +158,28 @@ document.getElementById("back-btn").addEventListener("click", () => {
   modalGalleryView.hidden = false;
   modalAddView.hidden = true;
 });
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Veuillez séléctionner une image");
+    fileInput.value = "";
+    return;
+  }
+
+  const imageUrl = URL.createObjectURL(file);
+
+  previewImg.src = imageUrl;
+
+  uploadLabel.hidden = true;
+  previewContainer.hidden = false;
+});
+
+form.addEventListener("input", updateSubmitState);
+form.addEventListener("change", updateSubmitState);
 
 // Execution :
 fetchWorks();
