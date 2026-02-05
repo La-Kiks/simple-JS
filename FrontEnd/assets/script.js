@@ -1,14 +1,18 @@
 const API_BASE_URL = "http://localhost:5678/api";
 
 const gallery = document.getElementById("gallery");
+const filtersContainer = document.getElementById("filters");
 const filterButtons = document.querySelectorAll("#filters button");
 const loginLink = document.getElementById("login-link");
 const token = localStorage.getItem("token");
-const isLoggedIn = !!token; // TODO check if logged in and add header
+const isLoggedIn = !!token;
 const modal = document.getElementById("modal");
-const editBtn = document.getElementById("edit-btn");
+const editBtnContainer = document.querySelector(".edit-btn-container");
+const editHeader = document.querySelector(".edition-header");
 const closeModalBtn = document.getElementById("close-modal");
 const modalGallery = document.getElementById("modal-gallery");
+const modalGalleryView = document.getElementById("modal-gallery-view");
+const modalAddView = document.getElementById("modal-add-view");
 
 let works = [];
 
@@ -54,9 +58,11 @@ function displayWorksInModal(works) {
 
   works.forEach((work) => {
     modalGallery.innerHTML += `
-      <figure>
+      <figure class="modal-work">
         <img src="${work.imageUrl}" alt="${work.title}">
-        <button class="delete-btn" data-id="${work.id}">Del</button>
+        <button class="delete-btn" data-id="${work.id}">
+        <img src="assets/icons/white-trash-icon.svg" alt="trash icon">
+        </button>
       </figure>
     `;
   });
@@ -64,7 +70,7 @@ function displayWorksInModal(works) {
 
 function handleLogout() {
   if (token) {
-    loginLink.textContent = "Logout";
+    loginLink.textContent = "logout";
     loginLink.href = "#";
 
     loginLink.addEventListener("click", () => {
@@ -75,7 +81,9 @@ function handleLogout() {
 }
 
 function updateAdminUI() {
-  editBtn.hidden = !isLoggedIn;
+  editBtnContainer.hidden = !isLoggedIn;
+  editHeader.hidden = !isLoggedIn;
+  filtersContainer.hidden = isLoggedIn;
 }
 
 function openModal() {
@@ -100,7 +108,7 @@ filterButtons.forEach((button) => {
   });
 });
 
-editBtn.addEventListener("click", openModal);
+editBtnContainer.addEventListener("click", openModal);
 
 closeModalBtn.addEventListener("click", closeModal);
 
@@ -125,6 +133,16 @@ modalGallery.addEventListener("click", async (e) => {
   } catch (e) {
     console.error(e);
   }
+});
+
+document.getElementById("add-work-btn").addEventListener("click", () => {
+  modalGalleryView.hidden = true;
+  modalAddView.hidden = false;
+});
+
+document.getElementById("back-btn").addEventListener("click", () => {
+  modalGalleryView.hidden = false;
+  modalAddView.hidden = true;
 });
 
 // Execution :

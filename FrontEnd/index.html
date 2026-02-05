@@ -15,15 +15,21 @@
 </head>
 
 <body>
+	<div class="edition-header">
+		<img src="assets/icons/edition-icon-white.svg" alt="Edition icon">
+		<h2>Mode édition</h2>
+	</div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<a href="login.html" id="login-link">
-					<li>login</li>
-				</a>
+				<li>
+					<a href="login.html" id="login-link">
+						login
+					</a>
+				</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -45,8 +51,14 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
-			<button id="edit-btn">Editer</button>
+			<div class="portfolio-title-container">
+				<h2>Mes Projets</h2>
+				<div class="edit-btn-container">
+					<img src="assets/icons/edition-icon-black.svg" alt="Edition Icon"> <button id="edit-btn">
+						modifier
+					</button>
+				</div>
+			</div>
 			<div id="filters">
 				<button class="selected" data-category="all">Tous</button>
 				<button data-category="1">Objets</button>
@@ -55,30 +67,52 @@
 			</div>
 			<div id="modal" hidden>
 				<div class="modal-content">
-
-					* <div id="modal-gallery-view">
+					<button id="close-modal" class="modal-close">×</button>
+					<!-- VUE 1 : Galerie -->
+					<div id="modal-gallery-view" class="modal-view">
 						<h2>Galerie photo</h2>
-						<div id="modal-gallery"></div>
-						<button id="add-work-btn">Ajouter une photo</button>
+						<div id="modal-gallery" class="modal-gallery">
+						</div>
+						<button id="add-work-btn" class="primary-btn">
+							Ajouter une photo
+						</button>
 					</div>
 
-					<div id="modal-add-view" class="hidden">
+					<!-- VUE 2 : Ajout -->
+					<div id="modal-add-view" class="modal-view" hidden>
+						<button id="back-btn" class="back-btn">←</button>
 						<h2>Ajout photo</h2>
-
 						<form id="add-work-form">
-							<input type="file" id="image" required>
-							<input type="text" id="title" placeholder="Titre" required>
-							<select id="category" required></select>
-
-							<button type="submit">Valider</button>
+							<div class="upload-box">
+								<input type="file" id="image" accept="image/*" required hidden>
+								<label for="image" class="upload-label">
+									<img src="assets/icons/upload-icon.svg" alt="Upload icon" class="upload-icon">
+									<span class="upload-text">+ Ajouter photo</span>
+									<span class="upload-hint">jpg, png : 4mo max</span>
+								</label>
+								<div class="image-preview" hidden>
+									<img src="" alt="Preview" id="preview-img">
+									<button type="button" class="remove-image">×</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="title">Titre</label>
+								<input type="text" id="title" required>
+							</div>
+							<div class="form-group">
+								<label for="category">Catégorie</label>
+								<select id="category" required>
+								</select>
+							</div>
+							<div class="spacer"></div>
+							<button type="submit" class="primary-btn disabled">
+								Valider
+							</button>
 						</form>
-
-						<button id="back-btn">← Retour</button>
 					</div>
-
-					<button id="close-modal">X</button>
 				</div>
 			</div>
+
 			<div id="gallery" class="gallery">
 			</div>
 		</section>
