@@ -19,6 +19,7 @@ const uploadLabel = document.querySelector(".upload-label");
 const previewContainer = document.querySelector(".image-preview");
 const form = document.getElementById("add-work-form");
 const submitBtn = form.querySelector("button[type='submit']");
+const categorySelect = document.getElementById("category");
 
 let works = [];
 
@@ -41,6 +42,22 @@ async function fetchWorks() {
     works = await response.json();
 
     displayWorks(works);
+  } catch (e) {
+    console.error("Error : ", e);
+  }
+}
+
+async function loadCategories() {
+  try {
+    const response = await fetch(API_BASE_URL + "/categories");
+    const categories = await response.json();
+
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
   } catch (e) {
     console.error("Error : ", e);
   }
@@ -185,3 +202,4 @@ form.addEventListener("change", updateSubmitState);
 fetchWorks();
 handleLogout();
 updateAdminUI();
+loadCategories();
