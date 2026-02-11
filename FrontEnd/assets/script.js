@@ -217,9 +217,7 @@ function updateAdminUI() {
     });
 
     form.addEventListener("input", () => {
-      console.log("Event Input.");
       if (!form.checkValidity()) return;
-      console.log("update submit display");
       submitBtn.classList.remove("disabled");
     });
 
@@ -246,8 +244,7 @@ function updateAdminUI() {
           throw new Error("Erreur lors de l’ajout du projet");
         }
 
-        const newWork = await response.json();
-        console.log("Work ajouté :", newWork);
+        console.log("Work ajouté.");
 
         form.reset();
         submitBtn.classList.add("disabled");
@@ -295,7 +292,7 @@ function createFormGroup(labelText, id, type) {
 
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = ". . .";
+    option.textContent = "Choisir une catégorie";
     field.appendChild(option);
   } else {
     field = document.createElement("input");
@@ -328,11 +325,18 @@ function createEditButton() {
 function createModal() {
   const modal = createEl("div", { id: "modal", hidden: true });
   const modalContent = createEl("div", { className: "modal-content" });
-  const closeBtn = createEl("button", {
-    id: "close-modal",
-    className: "modal-close",
-    text: "×",
-  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.id = "close-modal";
+  closeBtn.className = "modal-close";
+
+  const closeIcon = document.createElement("img");
+  closeIcon.src = "assets/icons/xmark.svg";
+  closeIcon.alt = "Fermer le modal";
+
+  closeBtn.appendChild(closeIcon);
+
+  closeBtn.appendChild(closeIcon);
 
   modalContent.appendChild(closeBtn);
 
@@ -358,11 +362,18 @@ function createModal() {
     className: "modal-view",
     hidden: true,
   });
-  const backBtn = createEl("button", {
-    id: "back-btn",
-    className: "back-btn",
-    text: "←",
-  });
+  const backBtn = document.createElement("button");
+  backBtn.id = "back-btn";
+  backBtn.className = "back-btn";
+
+  const backIcon = document.createElement("img");
+  backIcon.src = "assets/icons/arrow-left.svg";
+  backIcon.alt = "Retour";
+
+  backBtn.appendChild(backIcon);
+
+  backBtn.setAttribute("aria-label", "Retour");
+
   const addTitle = createEl("h2", { text: "Ajout photo" });
   const form = createEl("form", { id: "add-work-form" });
   const uploadBox = createEl("div", { className: "upload-box" });
