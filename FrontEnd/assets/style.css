@@ -139,7 +139,7 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  margin: 50px 0;
+  margin: 100px 0 50px 0;
 }
 section {
   margin: 50px 0;
@@ -385,11 +385,14 @@ strong {
 
 /* Edition */
 .edition-header:not([hidden]) {
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: black;
   color: white;
-  width: 100%;
-  max-width: 1440px;
-  margin: auto;
+  width: 100vw;
+  overflow: visible;
+  margin: 0;
   padding: 18px;
   gap: 8px;
   display: flex;
@@ -417,7 +420,7 @@ strong {
   margin: 0 !important;
 }
 
-.edit-btn-container {
+.edit-btn-container:not([hidden]) {
   display: flex;
   cursor: pointer;
 }
