@@ -124,6 +124,10 @@ function updateAdminUI() {
   if (isLoggedIn) {
     createModal();
 
+    const titleContainer = document.querySelector(".portfolio-title-container");
+    const editBtn = createEditButton();
+    titleContainer.appendChild(editBtn);
+
     const modal = document.getElementById("modal");
     const editBtnContainer = document.querySelector(".edit-btn-container");
     const editHeader = document.querySelector(".edition-header");
@@ -304,6 +308,23 @@ function createFormGroup(labelText, id, type) {
   return group;
 }
 
+function createEditButton() {
+  const container = document.createElement("div");
+  container.classList.add("edit-btn-container");
+
+  const icon = document.createElement("img");
+  icon.src = "assets/icons/edition-icon-black.svg";
+  icon.alt = "Edition Icon";
+
+  const button = document.createElement("button");
+  button.id = "edit-btn";
+  button.textContent = "modifier";
+
+  container.append(icon, button);
+
+  return container;
+}
+
 function createModal() {
   const modal = createEl("div", { id: "modal", hidden: true });
   const modalContent = createEl("div", { className: "modal-content" });
@@ -408,15 +429,6 @@ function createModal() {
   document.body.appendChild(modal);
 
   console.log("Modal created.");
-}
-
-// TODO submitBtn
-function updateSubmitState(form, submitBtn) {
-  if (form.checkValidity()) {
-    submitBtn.classList.remove("disabled");
-  } else {
-    submitBtn.classList.add("disabled");
-  }
 }
 
 function resetPreview(fileInput, previewImg, previewContainer, uploadLabel) {
