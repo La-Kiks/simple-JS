@@ -1,5 +1,3 @@
-// |sophie.bluel@test.tld|S0phie|
-
 const API_BASE_URL = "http://localhost:5678/api";
 
 const loginForm = document.getElementById("login-form");
@@ -28,8 +26,6 @@ loginForm.addEventListener("submit", async (event) => {
     }
 
     const data = await response.json();
-
-    console.log("data ", data);
 
     localStorage.setItem("token", data.token);
 

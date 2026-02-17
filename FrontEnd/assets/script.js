@@ -362,6 +362,7 @@ function createModal() {
     className: "modal-view",
     hidden: true,
   });
+
   const backBtn = document.createElement("button");
   backBtn.id = "back-btn";
   backBtn.className = "back-btn";
