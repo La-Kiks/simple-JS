@@ -2,7 +2,6 @@ const API_BASE_URL = "http://localhost:5678/api";
 
 const gallery = document.getElementById("gallery");
 const filtersContainer = document.getElementById("filters");
-// const filterButtons = document.querySelectorAll("#filters button");
 const loginLink = document.getElementById("login-link");
 const token = sessionStorage.getItem("token");
 const isLoggedIn = !!token;
