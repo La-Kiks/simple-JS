@@ -4,7 +4,7 @@ const gallery = document.getElementById("gallery");
 const filtersContainer = document.getElementById("filters");
 const filterButtons = document.querySelectorAll("#filters button");
 const loginLink = document.getElementById("login-link");
-const token = localStorage.getItem("token");
+const token = sessionStorage.getItem("token");
 const isLoggedIn = !!token;
 
 let works = [];
@@ -112,7 +112,7 @@ function handleLogout() {
     loginLink.href = "#";
 
     loginLink.addEventListener("click", () => {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       window.location.reload();
     });
   }
