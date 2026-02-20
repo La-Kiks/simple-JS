@@ -208,7 +208,12 @@ function updateAdminUI() {
       if (!deleteBtn) return;
 
       const workId = deleteBtn.dataset.id;
-      console.log("delete", workId);
+
+      const confirmDelete = confirm(
+        "Voulez-vous vraiment supprimer ce projet?",
+      );
+
+      if (!confirmDelete) return;
 
       try {
         const response = await fetch(API_BASE_URL + `/works/${workId}`, {
