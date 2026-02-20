@@ -2,7 +2,7 @@ const API_BASE_URL = "http://localhost:5678/api";
 
 const gallery = document.getElementById("gallery");
 const filtersContainer = document.getElementById("filters");
-const filterButtons = document.querySelectorAll("#filters button");
+// const filterButtons = document.querySelectorAll("#filters button");
 const loginLink = document.getElementById("login-link");
 const token = sessionStorage.getItem("token");
 const isLoggedIn = !!token;
@@ -41,6 +41,46 @@ async function fetchThenDisplayWorks() {
     displayWorks(works);
   } catch (e) {
     console.error("Error : ", e);
+  }
+}
+
+async function fetchThenDisplayCategories() {
+  try {
+    const response = await fetch(API_BASE_URL + "/categories");
+    const categories = await response.json();
+
+    filtersContainer.innerHTML = "";
+
+    const allButton = document.createElement("button");
+    allButton.textContent = "Tous";
+    allButton.dataset.category = "all";
+    allButton.classList.add("selected");
+
+    filtersContainer.appendChild(allButton);
+
+    categories.forEach((category) => {
+      const button = document.createElement("button");
+
+      button.textContent = category.name;
+      button.dataset.category = category.id;
+
+      filtersContainer.appendChild(button);
+    });
+
+    const filterButtons = document.querySelectorAll("#filters button");
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((btn) => {
+          btn.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+
+        filterWorksByCategory(button.dataset.category);
+      });
+    });
+  } catch (e) {
+    console.error("Impossible de récupérer les catégories.", e);
   }
 }
 
@@ -451,19 +491,9 @@ function resetPreview(fileInput, previewImg, previewContainer, uploadLabel) {
 }
 
 // Events :
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach((btn) => {
-      btn.classList.remove("selected");
-    });
-
-    button.classList.add("selected");
-
-    filterWorksByCategory(button.dataset.category);
-  });
-});
 
 // Execution :
 await fetchThenDisplayWorks();
+fetchThenDisplayCategories();
 updateAdminUI();
 handleLogout();
